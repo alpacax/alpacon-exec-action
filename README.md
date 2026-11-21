@@ -44,11 +44,7 @@ jobs:
           workspace-url: ${{ secrets.ALPACON_WORKSPACE_URL }}
           service-token: ${{ secrets.ALPACON_SERVICE_TOKEN }}
           target: 'prod-server'
-          script: |
-            cd /opt/myapp
-            git pull
-            npm install
-            pm2 restart app
+          script: cd /opt/myapp && git pull && npm install && pm2 restart app
 ```
 
 ### Pass environment variables
