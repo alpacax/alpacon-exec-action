@@ -16,6 +16,16 @@ Execute shell commands on remote servers in your [Alpacon](https://alpacon.io) w
 - **Multi-line scripts**—Execute complex deployment scripts, not just single commands
 - **Audit trail**—Every command is recorded in workspace audit logs with sensitive values masked
 
+## How access is controlled
+
+This action runs on the service-token path, which is separate from the work sessions that people and AI agents open:
+
+- **Reviewed before it works**—A service token that can run commands or transfer files is approved in the Alpacon console before it authenticates anywhere.
+- **Deny by default**—Its ACL names the servers, commands and file paths the pipeline may use. Everything else is refused.
+- **No one waits**—Within that ACL the workflow runs without a work session or an approval step.
+- **Bounded**—Optional allowed IP ranges and hours, and an expiry set by the token's rotation policy.
+- **On the record**—Every command and file transfer is recorded under the token in the workspace audit log.
+
 ## Authentication
 
 Set `service-token` to an Alpacon service token (its key starts with `alpst-`). A service token belongs to an IAM Application (a machine identity), not to a person, so it keeps working when people leave. Its access is limited by the token's scopes and its server, command, and file access rules. A service token does not need a Work Session; endpoint permissions still apply.
