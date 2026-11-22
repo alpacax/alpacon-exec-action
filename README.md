@@ -83,7 +83,7 @@ Each non-empty, non-comment line of `script` runs as its own command, in order, 
 | `service-token` | Alpacon service token key (`alpst-`) | Yes | |
 | `target` | The target server name to execute commands on | Yes | |
 | `script` | The command or commands to run, one per line | Yes | |
-| `username` | Server account to run the command as. A service token runs only as its application's account, never as `root` | No | |
+| `username` | Server account to run the command as. Leave it empty or set it to the application's account; any other account is refused | No | |
 | `env` | Environment variables to pass to the remote command (one per line, KEY=VALUE or KEY format) | No | |
 
 ## Troubleshooting
