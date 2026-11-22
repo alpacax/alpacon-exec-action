@@ -13,7 +13,7 @@ An SSH key in a CI secret is usually a full shell on your server. With this acti
 ## How access is controlled
 
 - **Only the commands you list**—The token's access rules name the servers and command lines it may run. Anything else is refused, and the refusal is recorded with its reason. Keep the rules narrow: a rule such as `bash -c *` or `sudo *` allows anything.
-- **No interactive access**—A service token cannot open a terminal session, a tunnel, or the file editor, and it never runs as `root`. Commands run as the server account its application owns.
+- **No interactive access**—A service token cannot open a terminal session, a tunnel, or the browser editor, and it never runs as `root`. Commands run as the server account its application owns.
 - **No inbound port**—The Alpacon agent on each server connects out. Nothing on the server listens for the runner, so the runner's changing IP addresses don't matter.
 - **Approved once, then unattended**—A token that can run commands waits for approval in the Alpacon web console and authenticates nowhere until it is approved. Runs after that don't wait for anyone.
 - **Bounded**—Every token has an expiry date and a rate limit, and you can disable it at any time. You can also limit it to hours and days of the week, and, on runners with fixed addresses such as self-hosted runners, to IP ranges.
