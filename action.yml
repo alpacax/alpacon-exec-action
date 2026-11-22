@@ -1,5 +1,5 @@
 name: 'Alpacon Exec Action'
-description: 'Executes a command on a target server using alpacon exec.'
+description: 'Deploy from GitHub Actions without handing CI an SSH key or opening a port. The token runs only the commands you list.'
 author: sangyeong01
 
 branding:
@@ -20,10 +20,7 @@ inputs:
     description: 'The script or command to execute.'
     required: true
   username:
-    description: 'Username to execute the command as (e.g., root, ubuntu).'
-    required: false
-  groupname:
-    description: 'Group name to execute the command as.'
+    description: "Server account to run the command as. A service token runs only as its application's account, never as root."
     required: false
   env:
     description: 'Environment variables to pass to the remote command (one per line, KEY=VALUE or KEY format).'
@@ -44,22 +41,15 @@ runs:
     - name: Execute command
       env:
         INPUT_USERNAME: ${{ inputs.username }}
-        INPUT_GROUPNAME: ${{ inputs.groupname }}
         INPUT_ENV: ${{ inputs.env }}
         INPUT_TARGET: ${{ inputs.target }}
         INPUT_SCRIPT: ${{ inputs.script }}
       run: |
         set -e
-        # Validate groupname requires username
-        if [[ -z "$INPUT_USERNAME" && -n "$INPUT_GROUPNAME" ]]; then
-          echo "Error: groupname requires username to be specified"
-          exit 1
-        fi
 
         # Build command args with optional flags
         CMD_ARGS=()
         if [[ -n "$INPUT_USERNAME" ]]; then CMD_ARGS+=(-u "$INPUT_USERNAME"); fi
-        if [[ -n "$INPUT_GROUPNAME" ]]; then CMD_ARGS+=(-g "$INPUT_GROUPNAME"); fi
         if [[ -n "$INPUT_ENV" ]]; then
           while IFS= read -r env_line || [[ -n "$env_line" ]]; do
             [[ -n "$env_line" ]] && CMD_ARGS+=(--env="$env_line")
