@@ -12,12 +12,12 @@ An SSH key in a CI secret is usually a full shell on your server. With this acti
 
 ## How access is controlled
 
-- **Only the commands you list**—The token's access rules name the servers and command lines it may run. Anything else is refused, and the refusal is recorded with its reason. Keep the rules narrow: a rule such as `bash -c *` or `sudo *` allows anything.
+- **Only the commands you list**—The token's access rules name the servers and command lines it may run. Anything else is refused and recorded with the reason it was refused. Keep the rules narrow: a rule such as `bash -c *` or `sudo *` allows anything.
 - **No interactive access**—A service token cannot open a terminal session, a tunnel, or the browser editor, and it never runs as `root`. Commands run as the server account its application owns.
 - **No inbound port**—The Alpacon agent on each server connects out. Nothing on the server listens for the runner, so the runner's changing IP addresses don't matter.
 - **Approved once, then unattended**—A token that can run commands waits for approval in the Alpacon web console and authenticates nowhere until it is approved. Runs after that don't wait for anyone.
 - **Bounded**—Every token has an expiry date and a rate limit, and you can disable it at any time. You can also limit it to hours and days of the week, and, on runners with fixed addresses such as self-hosted runners, to IP ranges.
-- **On the record**—Every command it runs, and every command an access rule refuses, appears in the workspace audit log.
+- **On the record**—Every command it runs, and every command an access rule refuses, appears in the workspace audit log (Audit → Events → Commands).
 
 ## Authentication
 
@@ -92,7 +92,7 @@ Each non-empty, non-comment line of `script` runs as its own command, in order, 
 |---------|-------|-----|
 | `alpacon: command not found` | CLI not installed | Add `alpacax/alpacon-setup-action@v1` before this action |
 | `Login failed` | Wrong workspace URL or token; the token is expired, disabled or still waiting for approval; or the runner is outside the token's allowed IP ranges or hours | Check both secrets, and the token's status and restrictions in the web console |
-| Command refused | The server or the command line isn't in the token's access rules, the line contains a redirection, or (Alpacon Cloud) the command was rated Critical | For a rule refusal, add a narrow rule for the server and command, and check every part of a chained line. Remove a redirection; no rule allows it. For a Critical rating, use a different command |
+| Command refused | The server or the command line isn't in the token's access rules, the line contains a redirection, or Alpacon's command review refused it | For a rule refusal, add a narrow rule for the server and command, and check every part of a chained line. Remove a redirection; no rule allows it. For a review refusal, use a different command |
 | Command not executing | Empty or comment-only script | Ensure script contains non-empty, non-comment lines |
 
 ## Related actions
