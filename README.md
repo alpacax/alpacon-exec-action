@@ -92,7 +92,7 @@ Each non-empty, non-comment line of `script` runs as its own command, in order, 
 |---------|-------|-----|
 | `alpacon: command not found` | CLI not installed | Add `alpacax/alpacon-setup-action@v1` before this action |
 | `Login failed` | Wrong workspace URL or token; the token is expired, disabled or still waiting for approval; or the runner is outside the token's allowed IP ranges or hours | Check both secrets, and the token's status and restrictions in the web console |
-| Command refused | The server or the command line isn't in the token's access rules, the line contains a redirection, or (Alpacon Cloud) the command was rated Critical | Add a narrow rule for the server and command, and check every part of a chained line |
+| Command refused | The server or the command line isn't in the token's access rules, the line contains a redirection, or (Alpacon Cloud) the command was rated Critical | For a rule refusal, add a narrow rule for the server and command, and check every part of a chained line. Remove a redirection; no rule allows it. For a Critical rating, use a different command |
 | Command not executing | Empty or comment-only script | Ensure script contains non-empty, non-comment lines |
 
 ## Related actions
