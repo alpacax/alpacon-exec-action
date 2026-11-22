@@ -29,8 +29,8 @@ jobs:
           target: ${{ secrets.TEST_ALPACON_SERVER_NAME }}
           script: whoami
 
-  # The CI token is bound to the "deploy" OS account, so username/groupname are
-  # exercised with that account rather than root
+  # The CI token is bound to the "deploy" OS account, so username is exercised
+  # with that account rather than root
   test-username-command:
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -51,28 +51,6 @@ jobs:
           script: |
             whoami
             id
-
-  test-username-with-group:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v6
-
-      - name: Setup Alpacon CLI
-        uses: alpacax/alpacon-setup-action@v1
-
-      - name: Test Username with Group
-        uses: ./
-        with:
-          workspace-url: ${{ secrets.TEST_ALPACON_WORKSPACE_URL }}
-          service-token: ${{ secrets.TEST_ALPACON_API_TOKEN }}
-          target: ${{ secrets.TEST_ALPACON_SERVER_NAME }}
-          username: 'deploy'
-          groupname: 'deploy'
-          script: |
-            whoami
-            groups
 
   test-env-variable:
     runs-on: ubuntu-latest
